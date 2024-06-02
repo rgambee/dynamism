@@ -1,0 +1,3 @@
+# Dynamism
+
+Dynamical system simulator
