@@ -13,12 +13,11 @@ interface PointMass {
 }
 
 function initializePointMass(mesh: Mesh): PointMass {
-  console.log(mesh);
   mesh.geometry.computeBoundingSphere();
   return {
     position: mesh.position,
     velocity: new Vector3(0, 0, 0),
-    mass: mesh.geometry.boundingSphere.radius ** 3,
+    mass: mesh.geometry.boundingSphere!.radius ** 3,
     uuid: mesh.uuid,
   };
 }
@@ -92,12 +91,9 @@ function randomInt(min: number, max: number) {
 }
 
 interface BodyParams {
-  allMasses: Map<string, PointMass>;
   initialPosition: Vector3;
   bodyRadius: number;
-  gravitationalConstant: number
-  wallElasticity: number
-  color: Color | undefined;
+  color?: Color;
 }
 
 function Body({
@@ -139,7 +135,8 @@ function GravitationalSystem({
     if (allMasses.length === initialPositions.length) {
       return;
     }
-    const newMasses = objectsInScene
+    const allMeshes = objectsInScene.filter(obj => obj.type === 'Mesh') as Mesh[];
+    const newMasses = allMeshes
       .filter(mesh => mesh.name === BODY_NAME)
       .filter(mesh => !Number.isNaN(mesh.position.x))
       .map(initializePointMass);
