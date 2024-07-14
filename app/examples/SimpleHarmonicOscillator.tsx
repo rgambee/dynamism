@@ -1,16 +1,16 @@
-import { useFrame } from '@react-three/fiber';
-import { Ref, useRef } from 'react';
+import { RootState, useFrame } from '@react-three/fiber';
+import { RefObject, useRef } from 'react';
 import { Mesh } from 'three';
 
 
 function animate(
-  meshRef: Ref<Mesh>,
+  meshRef: RefObject<Mesh>,
   initialVelocity: number,
   springConstant: number,
 ) {
   let velX = initialVelocity;
 
-  return (_, timeStep: number) => {
+  return (_: RootState, timeStep: number) => {
     const mesh = meshRef.current as Mesh | null | undefined;
     if (!mesh) {
       return;
@@ -31,7 +31,7 @@ function OscillatingCircle({
   initialVelocity = 100.0,
   springConstant = 1.0,
 } : OscillatingCircleParams) {
-  const meshRef = useRef<Mesh>();
+  const meshRef = useRef<Mesh>(null);
 
   useFrame(animate(meshRef, initialVelocity, springConstant));
 

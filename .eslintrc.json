@@ -11,6 +11,7 @@
   },
   "reportUnusedDisableDirectives": true,
   "rules": {
+    "@typescript-eslint/no-non-null-assertion": "off",
     "camelcase": "error",
     "comma-dangle": [
       "error",
